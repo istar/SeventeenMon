@@ -4,8 +4,13 @@ module SeventeenMon
     private_class_method :new
 
     def ip_db_path
-      @ip_db_path ||= File.expand_path'../../data/17monipdb.dat', __FILE__
+      @ip_db_path ||= if File.exist?("#{RAILS_ROOT}/lib/17monipdb.dat")
+                        "#{RAILS_ROOT}/lib/17monipdb.dat"
+                      else
+                        File.expand_path'../../data/17monipdb.dat', __FILE__
+                      end
     end
+
     def ip_db
       @ip_db ||= File.open ip_db_path, 'rb'
     end
